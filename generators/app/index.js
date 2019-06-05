@@ -120,7 +120,7 @@ module.exports = class extends BaseGenerator {
 
         const currentJhipsterVersion = this.jhipsterAppConfig.jhipsterVersion;
         const minimumJhipsterVersion = packagejs.dependencies['generator-jhipster'];
-        if (currentJhipsterVersion != undefined && !semver.satisfies(currentJhipsterVersion, minimumJhipsterVersion)) {
+        if (currentJhipsterVersion !== undefined && !semver.satisfies(currentJhipsterVersion, minimumJhipsterVersion)) {
             this.error(`\nYour backend uses an old JHipster version (${currentJhipsterVersion})... you need at least (${minimumJhipsterVersion})\n`);
         }
 
@@ -129,18 +129,32 @@ module.exports = class extends BaseGenerator {
             this.error(`\nYour backend project must be a monolith or a gateway to work with this module! Found application type: ${applicationType}.\n`);
         }
 
-        const cmd = `ionic start ${this.ionicAppName} oktadeveloper/jhipster${(this.interactive) ? '' : ' --no-interactive'}`;
+        // const cmd = `ionic start ${this.ionicAppName} oktadeveloper/jhipster${(this.interactive) ? '' : ' --no-interactive'}`;
+        const cmd = 'cp ma gueule';
+
         this.log(`\nCreating Ionic app with command: ${chalk.green(`${cmd}`)}`);
-        const params = ['start', this.ionicAppName, 'oktadeveloper/jhipster'];
-        if (!this.interactive) {
-            params.push('--no-interactive');
-            params.push('--quiet');
-        }
-        if (!this.installDeps) {
-            params.push('--no-deps');
-            params.push('--no-git');
-        }
-        spawn.sync('ionic', params, { stdio: 'inherit' });
+        const params = [
+            '-R',
+            '/media/florent/DATA/git_projects/ionic/fork/starters/build/angular-community-fleboulch-jhipster',
+            '/media/florent/DATA/git_projects/jhipster-ionic/sample/test1'
+        ];
+        // if (!this.interactive) {
+        //     params.push('--no-interactive');
+        //     params.push('--quiet');
+        // }
+        // if (!this.installDeps) {
+        //     params.push('--no-deps');
+        //     params.push('--no-git');
+        // }
+        spawn.sync('cp', params, { stdio: 'inherit' });
+        spawn.sync(
+            'mv',
+            [
+                `${params[2]}/angular-community-fleboulch-jhipster`,
+                `${params[2]}/${this.ionicAppName}`
+            ], { stdio: 'inherit' }
+        );
+
     }
 
     install() {
